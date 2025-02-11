@@ -1,25 +1,40 @@
 public class Pedido {
-    public Cliente cliente;
+
+    private Cliente cliente;  // Relación con el Cliente
+
+    // Constructor
     public Pedido(Cliente cliente) {
         this.cliente = cliente;
     }
 
-    public void procesarPedido(double total) {
-        if (total > 100) {
-            double descuento = total * 0.10;
-            double precioFinal = total - descuento;
-            System.out.println("Pedido aprobado. Total: " + precioFinal + " (descuento aplicado: " + descuento + ")");
-        } else {
-            System.out.println("Pedido aprobado. Total: " + total);
-        }
+    // Getter y Setter para cliente
+    public Cliente getCliente() {
+        return cliente;
     }
-    public void procesarPedidoVIP(double total) {
-        if (total > 100) {
-            double descuento = total * 0.15;
-            double precioFinal = total - descuento;
-            System.out.println("Pedido VIP aprobado. Total: " + precioFinal + " (descuento aplicado: " + descuento + ")");
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    // Método unificado para procesar el pedido
+    public void procesarPedido(double total) {
+        double descuento = 0;
+
+        // Aplicamos un descuento diferente dependiendo de si el cliente es VIP o no
+        if (cliente.isEsVip()) {
+            descuento = total * 0.15;  // 15% de descuento para clientes VIP
+            System.out.println("Pedido VIP aprobado.");
         } else {
-            System.out.println("Pedido VIP aprobado. Total: " + total);
+            if (total > 100) {
+                descuento = total * 0.10;  // 10% de descuento para clientes no VIP si el total es mayor a 100
+                System.out.println("Pedido aprobado con descuento.");
+            } else {
+                System.out.println("Pedido aprobado.");
+            }
         }
+
+        double precioFinal = total - descuento;
+        System.out.println("Total: " + precioFinal + " (descuento aplicado: " + descuento + ")");
     }
 }
+
